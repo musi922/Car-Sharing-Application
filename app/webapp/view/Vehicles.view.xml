@@ -126,12 +126,13 @@
                                     <HBox justifyContent="SpaceBetween" width="100%" class="sapUiSmallMarginBottom">
                                         <!-- Rent Now — calls onRentNow, disabled if already rented -->
                                         <Button
-                                            text="Rent Now"
-                                            type="Emphasized"
+                                            text="{= ${status} === 'Available' ? 'Rent Now' : 'Already Rented'}"
+                                            type="{= ${status} === 'Available' ? 'Emphasized' : 'Default'}"
                                             width="49%"
                                             press=".onRentNow"
                                             icon="sap-icon://car-rental"
-                                            enabled="{= ${status} === 'Available'}"
+                                            enabled="{= ${status} === 'Available' ? true : false}"
+                                            tooltip="{= ${status} === 'Available' ? 'Rent this vehicle' : 'This vehicle is already rented'}"
                                         />
                                         <!-- View Details keeps its own handler -->
                                         <Button

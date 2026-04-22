@@ -42,9 +42,10 @@
                 </uxap:navigationBar>
                 <uxap:actions>
                     <Button
-                        text="{= ${status} === 'Available' ? 'Rent this vehicle' : 'Already Rented'}"
+                        text="{= ${status} === 'Available' ? 'Rent Now' : 'Already Rented'}"
                         type="{= ${status} === 'Available' ? 'Emphasized' : 'Default'}"
-                        enabled="{= ${status} === 'Available'}"
+                        enabled="{= ${status} === 'Available' ? true : false}"
+                        tooltip="{= ${status} === 'Available' ? 'Rent this vehicle' : 'This vehicle is already rented'}"
                         press=".onRentPress"
                     />
                 </uxap:actions>

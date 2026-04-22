@@ -24,7 +24,7 @@
                     </HBox>
                 </f:heading>
                 <f:actions>
-                    <Button icon="sap-icon://phone" text="+996 247-1680" type="Transparent" />
+                    <Button icon="sap-icon://phone" text="+496 247-1680" type="Transparent" />
                     <Button icon="sap-icon://customer" type="Transparent" />
                 </f:actions>
             </f:DynamicPageTitle>
@@ -96,17 +96,16 @@
                     >
                         <form:content>
                             <Label text="Car type" />
-                            <Select width="100%">
+                            <Select id="selectCarType" width="100%" change=".onFilterChange">
+                                <core:Item key="" text="All Types" />
                                 <core:Item key="Sedan" text="Sedan" />
                                 <core:Item key="SUV" text="SUV" />
                                 <core:Item key="Luxury" text="Luxury" />
                             </Select>
                             <Label text="Pickup Location" />
-                            <Input placeholder="Enter City..." />
+                            <Input id="inputLocation" placeholder="Enter City..." liveChange=".onFilterChange" />
                             <Label text="Date Range" />
-                            <DateRangeSelection />
-                            <Label text="" />
-                            <Button text="Search Available Cars" type="Emphasized" press=".onNavVehicles" width="200px" />
+                            <DateRangeSelection id="dateRange" change=".onFilterChange" />
                         </form:content>
                     </form:SimpleForm>
                 </Panel>
@@ -186,14 +185,15 @@
                                                 <Text text="{seats}" />
                                             </VBox>
                                         </HBox>
-                                        <!-- Rent Now calls onRentNow, NOT onViewDetails -->
+                                        <!-- Rent Now calls onRentNow, standardized aesthetics -->
                                         <Button
-                                            text="Rent Now"
-                                            type="Emphasized"
+                                            text="{= ${status} === 'Available' ? 'Rent Now' : 'Already Rented'}"
+                                            type="{= ${status} === 'Available' ? 'Emphasized' : 'Default'}"
                                             width="100%"
                                             press=".onRentNow"
                                             icon="sap-icon://car-rental"
-                                            enabled="{= ${status} === 'Available'}"
+                                            enabled="{= ${status} === 'Available' ? true : false}"
+                                            tooltip="{= ${status} === 'Available' ? 'Rent this vehicle' : 'This vehicle is already rented'}"
                                         />
                                     </VBox>
                                 </VBox>

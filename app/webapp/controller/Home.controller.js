@@ -1,14 +1,16 @@
 sap.ui.define(
     [
         "com/moyo/demo/caplugins/controller/BaseController",
+        "sap/ui/model/Filter",
+        "sap/ui/model/FilterOperator",
         "sap/m/MessageToast",
         "sap/m/MessageBox"
     ],
-    function (BaseController, MessageToast, MessageBox) {
+    function (BaseController, Filter, FilterOperator, MessageToast, MessageBox) {
         "use strict";
 
         return BaseController.extend("com.moyo.demo.caplugins.controller.Home", {
-            onInit: function () {},
+            onInit: function () { },
 
             onNavHome: function () {
                 this.getRouter().navTo("Home");
@@ -23,12 +25,42 @@ sap.ui.define(
                 this.getRouter().navTo("Details", { carID: oCarID });
             },
 
+            onFilterChange: function () {
+                const sType = this.byId("selectCarType").getSelectedKey();
+                const sLocation = this.byId("inputLocation").getValue();
+                const aFilters = [];
+
+                if (sType) {
+                    aFilters.push(new Filter("description", FilterOperator.Contains, sType));
+                }
+
+                if (sLocation) {
+                    aFilters.push(new Filter({
+                        filters: [
+                            new Filter("description", FilterOperator.Contains, sLocation),
+                            new Filter("brand", FilterOperator.Contains, sLocation),
+                            new Filter("model", FilterOperator.Contains, sLocation)
+                        ],
+                        and: false
+                    }));
+                }
+
+                this.byId("featuredCarsList").getBinding("items").filter(aFilters);
+            },
+
             onRentNow: function (oEvent) {
                 const oSource = oEvent.getSource();
                 const oContext = oSource.getBindingContext();
                 const sCarID = oContext.getProperty("ID");
                 const sBrand = oContext.getProperty("brand");
                 const sModel = oContext.getProperty("model");
+                const sStatus = oContext.getProperty("status");
+
+                if (sStatus !== "Available") {
+                    MessageToast.show("This car is already rented.");
+                    return;
+                }
+
                 const oModel = this.getModel();
 
                 MessageBox.confirm(

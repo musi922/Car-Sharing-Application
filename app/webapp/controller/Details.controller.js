@@ -40,6 +40,13 @@ sap.ui.define(
                 const sCarID = oContext.getProperty("ID");
                 const sBrand = oContext.getProperty("brand");
                 const sModel = oContext.getProperty("model");
+                const sStatus = oContext.getProperty("status");
+
+                if (sStatus !== "Available") {
+                    MessageToast.show("This car is already rented.");
+                    return;
+                }
+
                 const oModel = this.getModel();
 
                 MessageBox.confirm(
