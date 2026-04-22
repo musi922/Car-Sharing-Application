@@ -3,76 +3,147 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
-    xmlns:l="sap.ui.layout"
     xmlns:f="sap.f"
-    xmlns:card="sap.f.cards"
 >
-    <f:DynamicPage id="vehiclesPage" headerExpanded="true">
+    <f:DynamicPage id="vehiclesPage" headerExpanded="true" fitContent="true" class="sapUiNoContentPadding">
         <f:title>
             <f:DynamicPageTitle>
                 <f:navigationActions>
-                    <Button icon="sap-icon://nav-back" press=".onNavBack" type="Transparent" />
+                    <Button icon="sap-icon://nav-back" press=".onNavBack" type="Transparent" tooltip="Go Back" />
                 </f:navigationActions>
                 <f:heading>
-                    <Title text="Our Fleet" level="H2" />
+                    <HBox alignItems="Center">
+                        <Title text="Moyotech" class="sapUiSmallMarginEnd" />
+                        <Link text="Home" press=".onNavHome" class="sapUiSmallMarginEnd" />
+                        <Link text="Vehicles" class="sapUiSmallMarginEnd" />
+                        <Link text="Details" class="sapUiSmallMarginEnd" />
+                    </HBox>
                 </f:heading>
+                <f:actions>
+                    <Button icon="sap-icon://phone" text="+996 247-1680" type="Transparent" />
+                    <Button icon="sap-icon://customer" type="Transparent" />
+                </f:actions>
             </f:DynamicPageTitle>
         </f:title>
 
         <f:header>
             <f:DynamicPageHeader pinnable="true">
-                <SearchField placeholder="Filter by brand or model..." search=".onSearch" width="400px" />
-                <HBox class="sapUiSmallMarginTop">
+                <VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                    <SearchField
+                        placeholder="Filter by brand or model..."
+                        search=".onSearch"
+                        width="400px"
+                        class="sapUiSmallMarginBottom"
+                    />
                     <SegmentedButton selectedKey="all" selectionChange=".onFilterType">
                         <items>
-                            <SegmentedButtonItem key="all" text="All vehicles" />
+                            <SegmentedButtonItem key="all" text="All Vehicles" />
                             <SegmentedButtonItem key="Sedan" text="Sedan" />
                             <SegmentedButtonItem key="SUV" text="SUV" />
                             <SegmentedButtonItem key="Truck" text="Pickup" />
                         </items>
                     </SegmentedButton>
-                </HBox>
+                </VBox>
             </f:DynamicPageHeader>
         </f:header>
 
         <f:content>
-            <f:GridContainer id="vehiclesGrid" items="{path: '/Cars'}">
-                <f:layout>
-                    <f:GridContainerSettings columns="12" gap="1rem" />
-                </f:layout>
-                <f:items>
-                    <VBox class="sapUiSmallMargin carCard">
-                        <layoutData>
-                            <f:GridContainerItemLayoutData columns="4" />
-                        </layoutData>
-                        <HBox justifyContent="SpaceBetween" alignItems="Start">
-                            <VBox>
-                                <Title text="{brand} {model}" level="H3" wrapping="true" />
-                                <ObjectStatus 
-                                    text="{status}" 
-                                    state="{= ${status} === 'Available' ? 'Success' : 'Error' }" 
-                                    inverted="true" />
+            <VBox class="sapUiMediumMargin">
+                <f:GridContainer
+                    id="vehiclesGrid"
+                    items="{path: '/Cars'}"
+                    width="100%"
+                >
+                    <f:layout>
+                        <f:GridContainerSettings
+                            minColumnSize="200px"
+                            maxColumnSize="400px"
+                            gap="1rem"
+                        />
+                    </f:layout>
+                    <f:items>
+                        <Panel
+                            width="100%"
+                            backgroundDesign="Solid"
+                            class="sapUiNoContentPadding"
+                        >
+                            <VBox width="100%">
+
+                                <!-- Full-bleed image -->
+                                <Image
+                                    src="{imageURL}"
+                                    width="100%"
+                                    height="180px"
+                                    mode="Background"
+                                    backgroundSize="cover"
+                                    backgroundPosition="center"
+                                />
+
+                                <!-- Card body -->
+                                <VBox class="sapUiSmallMargin">
+
+                                    <!-- Title row: name left, price right -->
+                                    <HBox justifyContent="SpaceBetween" width="100%" class="sapUiTinyMarginBottom">
+                                        <VBox>
+                                            <Title text="{brand} {model}" level="H4" wrapping="true" />
+                                        </VBox>
+                                        <VBox alignItems="End">
+                                            <ObjectNumber
+                                                number="{pricePerDay}"
+                                                numberUnit="$ / day"
+                                                emphasized="true"
+                                            />
+                                        </VBox>
+                                    </HBox>
+
+                                    <!-- Status badge -->
+                                    <ObjectStatus
+                                        text="{status}"
+                                        state="{= ${status} === 'Available' ? 'Success' : 'Error' }"
+                                        inverted="true"
+                                        class="sapUiSmallMarginBottom"
+                                    />
+
+                                    <!-- Divider -->
+                                    <core:HTML content="&lt;div style='border-top:1px solid #e5e5e5;margin-bottom:8px'/&gt;" />
+
+                                    <!-- Year | Fuel -->
+                                    <HBox justifyContent="SpaceBetween" width="100%" class="sapUiTinyMarginBottom">
+                                        <VBox>
+                                            <Label text="Year" design="Bold" />
+                                            <Text text="{year}" />
+                                        </VBox>
+                                        <VBox alignItems="End">
+                                            <Label text="Fuel" design="Bold" />
+                                            <Text text="{fuelType}" />
+                                        </VBox>
+                                    </HBox>
+
+                                    <!-- Transmission | Seats -->
+                                    <HBox justifyContent="SpaceBetween" width="100%" class="sapUiSmallMarginBottom">
+                                        <VBox>
+                                            <Label text="Transmission" design="Bold" />
+                                            <Text text="{transmission}" />
+                                        </VBox>
+                                        <VBox alignItems="End">
+                                            <Label text="Seats" design="Bold" />
+                                            <Text text="{seats}" />
+                                        </VBox>
+                                    </HBox>
+
+                                    <Button
+                                        text="View Details"
+                                        type="Emphasized"
+                                        width="100%"
+                                        press=".onViewDetails"
+                                        icon="sap-icon://detail-view"
+                                    />
+                                </VBox>
                             </VBox>
-                            <VBox alignItems="End">
-                                <Title text="${pricePerDay}" level="H2" />
-                                <Text text="per day" />
-                            </VBox>
-                        </HBox>
-                        <Image src="{imageURL}" width="100%" height="160px" mode="Background" backgroundSize="contain" class="sapUiSmallMarginTopBottom" />
-                        <VBox class="sapUiSmallMarginBottom">
-                            <HBox justifyContent="SpaceBetween">
-                                <ObjectAttribute title="Transmission" text="{transmission}" />
-                                <ObjectAttribute title="Seats" text="{seats}" />
-                            </HBox>
-                            <HBox justifyContent="SpaceBetween">
-                                <ObjectAttribute title="Fuel" text="{fuelType}" />
-                                <ObjectAttribute title="Year" text="{year}" />
-                            </HBox>
-                        </VBox>
-                        <Button text="View Details" type="Emphasized" width="100%" press=".onViewDetails" />
-                    </VBox>
-                </f:items>
-            </f:GridContainer>
+                        </Panel>
+                    </f:items>
+                </f:GridContainer>
+            </VBox>
         </f:content>
     </f:DynamicPage>
 </mvc:View>
