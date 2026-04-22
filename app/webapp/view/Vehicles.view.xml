@@ -1,0 +1,69 @@
+<mvc:View
+    controllerName="com.moyo.demo.caplugins.controller.Vehicles"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.f"
+    xmlns:card="sap.f.cards"
+>
+    <f:DynamicPage id="vehiclesPage" headerExpanded="true">
+        <f:title>
+            <f:DynamicPageTitle showNavButton="true" navButtonPress=".onNavBack">
+                <f:heading>
+                    <Title text="Our Fleet" level="H2" />
+                </f:heading>
+            </f:DynamicPageTitle>
+        </f:title>
+
+        <f:header>
+            <f:DynamicPageHeader pinnable="true">
+                <SearchField placeholder="Filter by brand or model..." search=".onSearch" width="400px" />
+                <HBox class="sapUiSmallMarginTop">
+                    <SegmentedButton selectedKey="all" selectionChange=".onFilterType">
+                        <items>
+                            <SegmentedButtonItem key="all" text="All vehicles" />
+                            <SegmentedButtonItem key="Sedan" text="Sedan" />
+                            <SegmentedButtonItem key="SUV" text="SUV" />
+                            <SegmentedButtonItem key="Truck" text="Pickup" />
+                        </items>
+                    </SegmentedButton>
+                </HBox>
+            </f:DynamicPageHeader>
+        </f:header>
+
+        <f:content>
+            <f:GridList id="vehiclesGrid" items="{path: '/Cars'}">
+                <f:GridListItem>
+                    <VBox class="sapUiSmallMargin carCard">
+                        <HBox justifyContent="SpaceBetween" alignItems="Start">
+                            <VBox>
+                                <Title text="{brand} {model}" level="H3" wrapping="true" />
+                                <ObjectStatus 
+                                    text="{status}" 
+                                    state="{= ${status} === 'Available' ? 'Success' : 'Error' }" 
+                                    inverted="true" />
+                            </VBox>
+                            <VBox alignItems="End">
+                                <Title text="${pricePerDay}" level="H2" color="Critical" />
+                                <Text text="per day" />
+                            </VBox>
+                        </HBox>
+                        <Image src="{imageURL}" width="100%" height="160px" mode="Background" backgroundSize="contain" class="sapUiSmallMarginTopBottom" />
+                        <VBox class="sapUiSmallMarginBottom">
+                            <HBox justifyContent="SpaceBetween">
+                                <ObjectAttribute title="Transmission" text="{transmission}" />
+                                <ObjectAttribute title="Seats" text="{seats}" />
+                            </HBox>
+                            <HBox justifyContent="SpaceBetween">
+                                <ObjectAttribute title="Fuel" text="{fuelType}" />
+                                <ObjectAttribute title="Year" text="{year}" />
+                            </HBox>
+                        </VBox>
+                        <Button text="View Details" type="Emphasized" width="100%" press=".onViewDetails" />
+                    </VBox>
+                </f:GridListItem>
+            </f:GridList>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

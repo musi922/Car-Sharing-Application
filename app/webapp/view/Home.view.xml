@@ -1,0 +1,111 @@
+<mvc:View
+    controllerName="com.moyo.demo.caplugins.controller.Home"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
+>
+    <f:DynamicPage id="homePage" headerExpanded="true" showFooter="false" class="sapUiNoContentPadding">
+        <f:title>
+            <f:DynamicPageTitle>
+                <f:heading>
+                    <HBox alignItems="Center">
+                        <Title text="Moyotech" class="logoText sapUiSmallMarginEnd" />
+                        <Link text="Home" press=".onNavHome" class="sapUiSmallMarginEnd" />
+                        <Link text="Vehicles" press=".onNavVehicles" class="sapUiSmallMarginEnd" />
+                        <Link text="Details" class="sapUiSmallMarginEnd" />
+                    </HBox>
+                </f:heading>
+                <f:actions>
+                    <Button icon="sap-icon://phone" text="+996 247-1680" type="Transparent" />
+                    <Button icon="sap-icon://customer" type="Transparent" />
+                </f:actions>
+            </f:DynamicPageTitle>
+        </f:title>
+
+        <f:header>
+            <f:DynamicPageHeader pinnable="true">
+                <VBox alignItems="Center" class="sapUiMediumMarginTopBottom">
+                    <Title text="Experience the road like never before" level="H1" class="sapUiSmallMarginBottom" />
+                    <Text text="Find the perfect car for your next journey" />
+                </VBox>
+            </f:DynamicPageHeader>
+        </f:header>
+
+        <f:content>
+            <VBox>
+                <!-- Booking Section -->
+                <Panel class="sapUiMediumMargin" expandable="true" expanded="false">
+                    <headerToolbar>
+                        <Toolbar>
+                            <core:Icon src="sap-icon://appointment" color="Default" />
+                            <Title text="Book your car" level="H3" />
+                            <ToolbarSpacer />
+                        </Toolbar>
+                    </headerToolbar>
+                    <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12">
+                        <form:content>
+                            <Label text="Car type" />
+                            <Select width="100%">
+                                <core:Item key="Sedan" text="Sedan" />
+                                <core:Item key="SUV" text="SUV" />
+                                <core:Item key="Luxury" text="Luxury" />
+                            </Select>
+
+                            <Label text="Pickup Location" />
+                            <Input placeholder="Enter City..." />
+
+                            <Label text="Date Range" />
+                            <DateRangeSelection />
+
+                            <Label text="" />
+                            <Button text="Search Available Cars" type="Emphasized" press=".onNavVehicles" width="200px" />
+                        </form:content>
+                    </form:SimpleForm>
+                </Panel>
+
+                <!-- Featured Cars -->
+                <VBox class="sapUiMediumMargin">
+                    <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
+                        <Title text="Our Top Recommendations" level="H2" />
+                        <Link text="View All" press=".onNavVehicles" />
+                    </HBox>
+
+                    <f:GridList id="featuredCarsList" items="{path: '/Cars', length: 3}">
+                        <f:GridListItem>
+                            <VBox class="sapUiSmallMargin">
+                                <HBox justifyContent="SpaceBetween" alignItems="Start">
+                                    <VBox>
+                                        <Title text="{brand} {model}" level="H3" wrapping="true" />
+                                        <ObjectStatus 
+                                            text="{status}" 
+                                            state="{= ${status} === 'Available' ? 'Success' : 'Error' }" 
+                                            inverted="true" />
+                                    </VBox>
+                                    <VBox alignItems="End">
+                                        <Title text="${pricePerDay}" level="H2" color="Critical" />
+                                        <Text text="per day" />
+                                    </VBox>
+                                </HBox>
+                                <Image src="{imageURL}" width="100%" height="150px" mode="Background" backgroundSize="contain" class="sapUiSmallMarginTopBottom" />
+                                <VBox class="sapUiSmallMarginBottom">
+                                    <HBox justifyContent="SpaceBetween">
+                                        <ObjectAttribute title="Year" text="{year}" />
+                                        <ObjectAttribute title="Fuel" text="{fuelType}" />
+                                    </HBox>
+                                    <HBox justifyContent="SpaceBetween">
+                                        <ObjectAttribute title="Gear" text="{transmission}" />
+                                        <ObjectAttribute title="Seats" text="{seats}" />
+                                    </HBox>
+                                </VBox>
+                                <Button text="Rent Now" type="Ghost" width="100%" press=".onViewDetails" />
+                            </VBox>
+                        </f:GridListItem>
+                    </f:GridList>
+                </VBox>
+            </VBox>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

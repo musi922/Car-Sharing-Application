@@ -1,0 +1,9 @@
+node_modules/
+_sqlite.db
+.env
+dist/
+webapp/node_modules/
+webapp/dist/
+gen/
+*.log
+.DS_Store

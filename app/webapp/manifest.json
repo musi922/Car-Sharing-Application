@@ -11,7 +11,7 @@
     },
     "dataSources": {
       "mainService": {
-        "uri": "/odata/v4/main/",
+        "uri": "/odata/v4/car-sharing/",
         "type": "OData",
         "settings": {
           "odataVersion": "4.0"
@@ -72,11 +72,40 @@
         "controlAggregation": "pages",
         "async": true
       },
-      "routes": [],
-      "targets": {}
+      "routes": [
+        {
+          "name": "Home",
+          "pattern": "",
+          "target": "Home"
+        },
+        {
+          "name": "Vehicles",
+          "pattern": "vehicles",
+          "target": "Vehicles"
+        },
+        {
+          "name": "Details",
+          "pattern": "details/{carID}",
+          "target": "Details"
+        }
+      ],
+      "targets": {
+        "Home": {
+          "viewName": "Home",
+          "viewLevel": 1
+        },
+        "Vehicles": {
+          "viewName": "Vehicles",
+          "viewLevel": 2
+        },
+        "Details": {
+          "viewName": "Details",
+          "viewLevel": 3
+        }
+      }
     },
     "rootView": {
-      "viewName": "com.moyo.demo.caplugins.view.Main",
+      "viewName": "com.moyo.demo.caplugins.view.App",
       "type": "XML",
       "async": true,
       "id": "app"

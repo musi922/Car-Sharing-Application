@@ -1,0 +1,25 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Toolbar height="80px" class="sapUiMediumMarginBeginEnd">
+        <HBox alignItems="Center">
+            <Title text="Moyotech" class="logoText" />
+            <Text text="Car Rental" class="sapUiTinyMarginBegin" />
+        </HBox>
+        <ToolbarSpacer />
+        <HBox alignItems="Center">
+            <Link text="Home" press=".onNavHome" class="navLink" />
+            <Link text="Vehicles" press=".onNavVehicles" class="navLink" />
+            <Link text="Details" class="navLink" />
+        </HBox>
+        <ToolbarSpacer />
+        <HBox alignItems="Center">
+            <core:Icon src="sap-icon://phone" color="#6C5DD3" class="sapUiSmallMarginEnd" />
+            <VBox>
+                <Text text="Need help?" size="XS" />
+                <Title text="+996 247-1680" level="H4" />
+            </VBox>
+        </HBox>
+    </Toolbar>
+</core:FragmentDefinition>
