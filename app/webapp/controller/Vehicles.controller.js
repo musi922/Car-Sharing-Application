@@ -89,7 +89,7 @@ sap.ui.define(
                 const sKey = oEvent.getParameter("item").getKey();
                 const aFilters = [];
                 if (sKey !== "all") {
-                    aFilters.push(new Filter("model", FilterOperator.Contains, sKey));
+                    aFilters.push(new Filter("description", FilterOperator.Contains, sKey));
                 }
                 this.byId("vehiclesGrid").getBinding("items").filter(aFilters);
             }

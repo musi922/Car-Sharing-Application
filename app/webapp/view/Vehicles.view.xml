@@ -44,9 +44,9 @@
                     <SegmentedButton selectedKey="all" selectionChange=".onFilterType">
                         <items>
                             <SegmentedButtonItem key="all" text="All Vehicles" />
-                            <SegmentedButtonItem key="Sedan" text="Sedan" />
                             <SegmentedButtonItem key="SUV" text="SUV" />
-                            <SegmentedButtonItem key="Truck" text="Pickup" />
+                            <SegmentedButtonItem key="Luxury" text="Luxury" />
+                            <SegmentedButtonItem key="Sedan" text="Sedan" />
                         </items>
                     </SegmentedButton>
                 </VBox>
