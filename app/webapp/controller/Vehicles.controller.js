@@ -2,14 +2,14 @@ sap.ui.define(
     [
         "com/moyo/demo/caplugins/controller/BaseController",
         "sap/ui/model/Filter",
-        "sap/ui/model/FilterOperator"
+        "sap/ui/model/FilterOperator",
+        "sap/m/MessageToast"
     ],
-    function (BaseController, Filter, FilterOperator) {
+    function (BaseController, Filter, FilterOperator, MessageToast) {
         "use strict";
 
         return BaseController.extend("com.moyo.demo.caplugins.controller.Vehicles", {
-            onInit: function () {
-            },
+            onInit: function () {},
 
             onNavHome: function () {
                 this.getRouter().navTo("Home");
@@ -21,9 +21,32 @@ sap.ui.define(
 
             onViewDetails: function (oEvent) {
                 const oCarID = oEvent.getSource().getBindingContext().getProperty("ID");
-                this.getRouter().navTo("Details", {
-                    carID: oCarID
-                });
+                this.getRouter().navTo("Details", { carID: oCarID });
+            },
+
+            onRentNow: function (oEvent) {
+                const oSource = oEvent.getSource();
+                const oContext = oSource.getBindingContext();
+                const sCarID = oContext.getProperty("ID");
+                const oModel = this.getModel();
+
+                oSource.setBusy(true);
+
+                const oAction = oModel.bindContext("/rentCar(...)");
+                oAction.setParameter("carID", sCarID);
+
+                oAction.execute().then(
+                    function () {
+                        oSource.setBusy(false);
+                        MessageToast.show("Car rented successfully!");
+                        // Refresh the whole model so Home and Vehicles both update
+                        oModel.refresh();
+                    }.bind(this),
+                    function (oError) {
+                        oSource.setBusy(false);
+                        MessageToast.show("Error: " + oError.getMessage());
+                    }.bind(this)
+                );
             },
 
             onSearch: function (oEvent) {
@@ -38,18 +61,16 @@ sap.ui.define(
                         and: false
                     }));
                 }
-                const oList = this.byId("vehiclesGrid");
-                oList.getBinding("items").filter(aFilters);
+                this.byId("vehiclesGrid").getBinding("items").filter(aFilters);
             },
 
             onFilterType: function (oEvent) {
                 const sKey = oEvent.getParameter("item").getKey();
                 const aFilters = [];
                 if (sKey !== "all") {
-                    aFilters.push(new Filter("model", FilterOperator.Contains, sKey)); 
+                    aFilters.push(new Filter("model", FilterOperator.Contains, sKey));
                 }
-                const oList = this.byId("vehiclesGrid");
-                oList.getBinding("items").filter(aFilters);
+                this.byId("vehiclesGrid").getBinding("items").filter(aFilters);
             }
         });
     }

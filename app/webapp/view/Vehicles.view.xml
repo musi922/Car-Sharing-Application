@@ -9,7 +9,13 @@
         <f:title>
             <f:DynamicPageTitle>
                 <f:navigationActions>
-                    <Button icon="sap-icon://nav-back" press=".onNavBack" type="Transparent" tooltip="Go Back" />
+                    <!-- Visible back button with text -->
+                    <Button
+                        icon="sap-icon://nav-back"
+                        text="Back"
+                        press=".onNavBack"
+                        type="Transparent"
+                    />
                 </f:navigationActions>
                 <f:heading>
                     <HBox alignItems="Center">
@@ -68,21 +74,16 @@
                             class="sapUiNoContentPadding"
                         >
                             <VBox width="100%">
-
-                                <!-- Full-bleed image -->
+                                <!-- Image with fallback for missing imageURL -->
                                 <Image
-                                    src="{imageURL}"
+                                    src="{= ${imageURL} ? ${imageURL} : 'sap-icon://car-rental'}"
                                     width="100%"
                                     height="180px"
                                     mode="Background"
                                     backgroundSize="cover"
                                     backgroundPosition="center"
                                 />
-
-                                <!-- Card body -->
                                 <VBox class="sapUiSmallMargin">
-
-                                    <!-- Title row: name left, price right -->
                                     <HBox justifyContent="SpaceBetween" width="100%" class="sapUiTinyMarginBottom">
                                         <VBox>
                                             <Title text="{brand} {model}" level="H4" wrapping="true" />
@@ -95,19 +96,13 @@
                                             />
                                         </VBox>
                                     </HBox>
-
-                                    <!-- Status badge -->
                                     <ObjectStatus
                                         text="{status}"
                                         state="{= ${status} === 'Available' ? 'Success' : 'Error' }"
                                         inverted="true"
                                         class="sapUiSmallMarginBottom"
                                     />
-
-                                    <!-- Divider -->
                                     <core:HTML content="&lt;div style='border-top:1px solid #e5e5e5;margin-bottom:8px'/&gt;" />
-
-                                    <!-- Year | Fuel -->
                                     <HBox justifyContent="SpaceBetween" width="100%" class="sapUiTinyMarginBottom">
                                         <VBox>
                                             <Label text="Year" design="Bold" />
@@ -118,8 +113,6 @@
                                             <Text text="{fuelType}" />
                                         </VBox>
                                     </HBox>
-
-                                    <!-- Transmission | Seats -->
                                     <HBox justifyContent="SpaceBetween" width="100%" class="sapUiSmallMarginBottom">
                                         <VBox>
                                             <Label text="Transmission" design="Bold" />
@@ -130,14 +123,25 @@
                                             <Text text="{seats}" />
                                         </VBox>
                                     </HBox>
-
-                                    <Button
-                                        text="View Details"
-                                        type="Emphasized"
-                                        width="100%"
-                                        press=".onViewDetails"
-                                        icon="sap-icon://detail-view"
-                                    />
+                                    <HBox justifyContent="SpaceBetween" width="100%" class="sapUiSmallMarginBottom">
+                                        <!-- Rent Now — calls onRentNow, disabled if already rented -->
+                                        <Button
+                                            text="Rent Now"
+                                            type="Emphasized"
+                                            width="49%"
+                                            press=".onRentNow"
+                                            icon="sap-icon://car-rental"
+                                            enabled="{= ${status} === 'Available'}"
+                                        />
+                                        <!-- View Details keeps its own handler -->
+                                        <Button
+                                            text="Details"
+                                            type="Default"
+                                            width="49%"
+                                            press=".onViewDetails"
+                                            icon="sap-icon://detail-view"
+                                        />
+                                    </HBox>
                                 </VBox>
                             </VBox>
                         </Panel>

@@ -7,19 +7,46 @@
     xmlns:f="sap.f"
     xmlns:uxap="sap.uxap"
 >
-    <uxap:ObjectPageLayout id="objectPageLayout" showTitleInHeaderContent="true" alwaysShowContentHeader="false" preserveHeaderStateOnScroll="false" headerDesign="Light" isChildPage="true">
+    <uxap:ObjectPageLayout
+        id="objectPageLayout"
+        showTitleInHeaderContent="true"
+        alwaysShowContentHeader="false"
+        preserveHeaderStateOnScroll="false"
+        headerDesign="Light"
+        isChildPage="true"
+    >
         <uxap:headerTitle>
-            <uxap:ObjectPageHeader 
-                objectTitle="{brand} {model}" 
-                objectSubtitle="{year} - {fuelType}" 
-                isObjectIconAlwaysVisible="false" 
-                isObjectTitleAlwaysVisible="true" 
-                isObjectSubtitleAlwaysVisible="true" 
+            <uxap:ObjectPageHeader
+                objectTitle="{brand} {model}"
+                objectSubtitle="{year} - {fuelType}"
+                isObjectIconAlwaysVisible="false"
+                isObjectTitleAlwaysVisible="true"
+                isObjectSubtitleAlwaysVisible="true"
                 showPlaceholder="true"
                 showNavButton="true"
-                navButtonPress=".onNavBack">
+                navButtonPress=".onNavBack"
+            >
+                <uxap:navigationBar>
+                    <!-- Prominent back button so it's always clearly visible -->
+                    <Bar>
+                        <contentLeft>
+                            <Button icon="sap-icon://nav-back" text="Back to Vehicles" press="onNavBack" type="Default" />
+                        </contentLeft>
+                        <contentMiddle>
+                            <Title text="Moyotech" />
+                        </contentMiddle>
+                        <contentRight>
+                            <Button icon="sap-icon://phone" text="+996 247-1680" type="Transparent" />
+                        </contentRight>
+                    </Bar>
+                </uxap:navigationBar>
                 <uxap:actions>
-                    <Button text="Rent this vehicle" type="Emphasized" press=".onRentPress" />
+                    <Button
+                        text="{= ${status} === 'Available' ? 'Rent this vehicle' : 'Already Rented'}"
+                        type="{= ${status} === 'Available' ? 'Emphasized' : 'Default'}"
+                        enabled="{= ${status} === 'Available'}"
+                        press=".onRentPress"
+                    />
                 </uxap:actions>
             </uxap:ObjectPageHeader>
         </uxap:headerTitle>
@@ -27,15 +54,20 @@
         <uxap:headerContent>
             <FlexBox wrap="Wrap" alignItems="Start">
                 <VBox class="sapUiSmallMarginEnd">
-                    <Title text="${pricePerDay}" level="H1" color="Critical" />
-                    <Text text="per day" />
+                    <Label text="Price" />
+                    <ObjectNumber
+                        number="{pricePerDay}"
+                        numberUnit="$ / day"
+                        emphasized="true"
+                    />
                 </VBox>
                 <VBox class="sapUiSmallMarginEnd">
                     <Label text="Status" />
-                    <ObjectStatus 
-                        text="{status}" 
-                        state="{= ${status} === 'Available' ? 'Success' : 'Error' }" 
-                        inverted="true" />
+                    <ObjectStatus
+                        text="{status}"
+                        state="{= ${status} === 'Available' ? 'Success' : 'Error' }"
+                        inverted="true"
+                    />
                 </VBox>
                 <VBox>
                     <Label text="Seats" />

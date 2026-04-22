@@ -21,6 +21,7 @@ sap.ui.define(
         },
 
         onNavBack: function () {
+          console.log("Back button pressed")
           const oHistory = History.getInstance();
           const sPreviousHash = oHistory.getPreviousHash();
           if (sPreviousHash !== undefined) {
