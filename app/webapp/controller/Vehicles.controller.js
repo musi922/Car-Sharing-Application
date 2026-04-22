@@ -46,7 +46,7 @@ sap.ui.define(
                 const sKey = oEvent.getParameter("item").getKey();
                 const aFilters = [];
                 if (sKey !== "all") {
-                    aFilters.push(new Filter("model", FilterOperator.Contains, sKey)); // Assuming car group can be matched by model for demo
+                    aFilters.push(new Filter("model", FilterOperator.Contains, sKey)); 
                 }
                 const oList = this.byId("vehiclesGrid");
                 oList.getBinding("items").filter(aFilters);

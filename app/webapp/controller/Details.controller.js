@@ -34,7 +34,27 @@ sap.ui.define(
             },
 
             onRentPress: function () {
-                MessageToast.show("Booking system integration: Car reserved successfully!");
+                const oView = this.getView();
+                const oContext = oView.getBindingContext();
+                const sCarID = oContext.getProperty("ID");
+                const oModel = this.getModel();
+
+                oView.setBusy(true);
+
+                const oAction = oModel.bindContext("/rentCar(...)");
+                oAction.setParameter("carID", sCarID);
+
+                oAction.execute().then(
+                    function () {
+                        oView.setBusy(false);
+                        MessageToast.show("Car rented successfully!");
+                        oContext.refresh();
+                    }.bind(this),
+                    function (oError) {
+                        oView.setBusy(false);
+                        MessageToast.show("Error renting car: " + oError.getMessage());
+                    }.bind(this)
+                );
             },
 
             onTilePress: function (oEvent) {

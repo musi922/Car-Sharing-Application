@@ -26,4 +26,12 @@ export default cds.service.impl(async function () {
         if (n > 0) return `Booking ${bookingID} cancelled successfully`;
         return req.error(404, `Booking ${bookingID} not found`);
     });
+
+    // Custom action to rent a car
+    this.on('rentCar', async (req) => {
+        const { carID } = req.data;
+        const n = await UPDATE(Cars).set({ status: 'Rented' }).where({ ID: carID });
+        if (n > 0) return `Car ${carID} rented successfully`;
+        return req.error(404, `Car ${carID} not found`);
+    });
 });

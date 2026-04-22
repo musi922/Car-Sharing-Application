@@ -6,4 +6,5 @@ service CarSharingService {
     entity Bookings as projection on my.Bookings;
 
     action cancelBooking(bookingID: UUID) returns String;
+    action rentCar(carID: UUID) returns String;
 }

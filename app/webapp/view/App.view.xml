@@ -5,10 +5,5 @@
     xmlns:core="sap.ui.core"
     displayBlock="true"
 >
-    <Shell id="shell">
-        <App id="app">
-            <!-- Header Fragment included in root to be persistent if desired, 
-                 but screenshots show it inside each page. I'll put it in each page for maximum control. -->
-        </App>
-    </Shell>
+    <App id="app" />
 </mvc:View>

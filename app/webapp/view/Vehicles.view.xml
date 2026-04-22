@@ -9,7 +9,10 @@
 >
     <f:DynamicPage id="vehiclesPage" headerExpanded="true">
         <f:title>
-            <f:DynamicPageTitle showNavButton="true" navButtonPress=".onNavBack">
+            <f:DynamicPageTitle>
+                <f:navigationActions>
+                    <Button icon="sap-icon://nav-back" press=".onNavBack" type="Transparent" />
+                </f:navigationActions>
                 <f:heading>
                     <Title text="Our Fleet" level="H2" />
                 </f:heading>
@@ -33,9 +36,15 @@
         </f:header>
 
         <f:content>
-            <f:GridList id="vehiclesGrid" items="{path: '/Cars'}">
-                <f:GridListItem>
+            <f:GridContainer id="vehiclesGrid" items="{path: '/Cars'}">
+                <f:layout>
+                    <f:GridContainerSettings columns="12" gap="1rem" />
+                </f:layout>
+                <f:items>
                     <VBox class="sapUiSmallMargin carCard">
+                        <layoutData>
+                            <f:GridContainerItemLayoutData columns="4" />
+                        </layoutData>
                         <HBox justifyContent="SpaceBetween" alignItems="Start">
                             <VBox>
                                 <Title text="{brand} {model}" level="H3" wrapping="true" />
@@ -45,7 +54,7 @@
                                     inverted="true" />
                             </VBox>
                             <VBox alignItems="End">
-                                <Title text="${pricePerDay}" level="H2" color="Critical" />
+                                <Title text="${pricePerDay}" level="H2" />
                                 <Text text="per day" />
                             </VBox>
                         </HBox>
@@ -62,8 +71,8 @@
                         </VBox>
                         <Button text="View Details" type="Emphasized" width="100%" press=".onViewDetails" />
                     </VBox>
-                </f:GridListItem>
-            </f:GridList>
+                </f:items>
+            </f:GridContainer>
         </f:content>
     </f:DynamicPage>
 </mvc:View>
