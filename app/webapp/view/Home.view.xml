@@ -39,38 +39,38 @@
                     class="sapUiSmallMarginBegin sapUiTinyMarginTopBottom"
                 >
                     <GenericTile
-                        header="Fleet Size"
-                        subheader="Luxury &amp; Economy"
+                        header="Total Fleet"
+                        subheader="Moyotech Vehicles"
                         press="onTilePress"
                         sizeBehavior="Small"
                         frameType="TwoByOne"
                         class="sapUiSmallMarginEnd"
                     >
                         <TileContent>
-                            <NumericContent value="250+" valueColor="Good" indicator="Up" withMargin="false" />
+                            <NumericContent value="{stats>/fleetSize}" valueColor="Neutral" withMargin="false" />
                         </TileContent>
                     </GenericTile>
                     <GenericTile
-                        header="Locations"
-                        subheader="Across the Country"
+                        header="Available Now"
+                        subheader="Ready for Rental"
                         press="onTilePress"
                         sizeBehavior="Small"
                         frameType="TwoByOne"
                         class="sapUiSmallMarginEnd"
                     >
                         <TileContent>
-                            <NumericContent value="45" valueColor="Neutral" withMargin="false" />
+                            <NumericContent value="{stats>/availableCars}" valueColor="Good" withMargin="false" />
                         </TileContent>
                     </GenericTile>
                     <GenericTile
-                        header="Reviews"
-                        subheader="Customer Satisfaction"
+                        header="Currently Rented"
+                        subheader="Ongoing Rentals"
                         press="onTilePress"
                         sizeBehavior="Small"
                         frameType="TwoByOne"
                     >
                         <TileContent>
-                            <NumericContent value="4.9" valueColor="Good" withMargin="false" />
+                            <NumericContent value="{stats>/rentedCars}" valueColor="Critical" withMargin="false" />
                         </TileContent>
                     </GenericTile>
                 </HBox>

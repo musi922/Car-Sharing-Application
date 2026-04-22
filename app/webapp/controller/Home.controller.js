@@ -3,14 +3,18 @@ sap.ui.define(
         "com/moyo/demo/caplugins/controller/BaseController",
         "sap/ui/model/Filter",
         "sap/ui/model/FilterOperator",
+        "sap/ui/model/json/JSONModel",
         "sap/m/MessageToast",
         "sap/m/MessageBox"
     ],
-    function (BaseController, Filter, FilterOperator, MessageToast, MessageBox) {
+    function (BaseController, Filter, FilterOperator, JSONModel, MessageToast, MessageBox) {
         "use strict";
 
         return BaseController.extend("com.moyo.demo.caplugins.controller.Home", {
-            onInit: function () { },
+            onInit: function () {
+                this.getView().getBindingContext(); // Trigger context calculation
+                this.getView().attachModelContextChange(this._loadStats, this);
+            },
 
             onNavHome: function () {
                 this.getRouter().navTo("Home");
@@ -46,6 +50,39 @@ sap.ui.define(
                 }
 
                 this.byId("featuredCarsList").getBinding("items").filter(aFilters);
+            },
+
+            _loadStats: function () {
+                const oModel = this.getModel();
+                if (!oModel || this._bStatsLoaded) {
+                    return;
+                }
+                this._bStatsLoaded = true;
+
+                const oStatsModel = new JSONModel({
+                    fleetSize: 0,
+                    availableCars: 0,
+                    rentedCars: 0
+                });
+                this.getView().setModel(oStatsModel, "stats");
+
+                // Total Fleet
+                const oTotalBinding = oModel.bindList("/Cars", null, null, null, { "$count": true });
+                oTotalBinding.requestContexts(0, 1).then(function () {
+                    oStatsModel.setProperty("/fleetSize", oTotalBinding.getCount());
+                });
+
+                // Available Cars
+                const oAvailableBinding = oModel.bindList("/Cars", null, null, [new Filter("status", FilterOperator.EQ, "Available")], { "$count": true });
+                oAvailableBinding.requestContexts(0, 1).then(function () {
+                    oStatsModel.setProperty("/availableCars", oAvailableBinding.getCount());
+                });
+
+                // Rented Cars
+                const oRentedBinding = oModel.bindList("/Cars", null, null, [new Filter("status", FilterOperator.EQ, "Rented")], { "$count": true });
+                oRentedBinding.requestContexts(0, 1).then(function () {
+                    oStatsModel.setProperty("/rentedCars", oRentedBinding.getCount());
+                });
             },
 
             onRentNow: function (oEvent) {
