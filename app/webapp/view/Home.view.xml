@@ -111,22 +111,22 @@
                 </Panel>
 
                 <!-- Featured Cars -->
-                <VBox class="sapUiMediumMargin">
-                    <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
+                <VBox class="sapUiLargeMarginBegin">
+                    <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiSmallMarginBottom sapUiLargeMarginEnd">
                         <Title text="Our Top Recommendations" level="H2" />
                         <Link text="View All" press=".onNavVehicles" />
                     </HBox>
 
                     <f:GridContainer
                         id="featuredCarsList"
-                        items="{path: '/Cars', length: 6}"
+                        items="{path: '/Cars'}"
                         width="100%"
                     >
                         <f:layout>
                             <f:GridContainerSettings
                                 minColumnSize="200px"
                                 maxColumnSize="400px"
-                                gap="1rem"
+                                gap="5rem"
                             />
                         </f:layout>
                         <f:items>
@@ -136,7 +136,6 @@
                                 class="sapUiNoContentPadding"
                             >
                                 <VBox width="100%">
-                                    <!-- Image with fallback src for cars with no imageURL -->
                                     <Image
                                         src="{= ${imageURL} ? ${imageURL} : 'sap-icon://car-rental'}"
                                         width="100%"
@@ -185,7 +184,6 @@
                                                 <Text text="{seats}" />
                                             </VBox>
                                         </HBox>
-                                        <!-- Rent Now calls onRentNow, standardized aesthetics -->
                                         <Button
                                             text="{= ${status} === 'Available' ? 'Rent Now' : 'Already Rented'}"
                                             type="{= ${status} === 'Available' ? 'Emphasized' : 'Default'}"
