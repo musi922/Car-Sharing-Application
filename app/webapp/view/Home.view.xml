@@ -4,7 +4,6 @@
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
     xmlns:f="sap.f"
-    xmlns:card="sap.f.cards"
     xmlns:form="sap.ui.layout.form"
 >
     <f:DynamicPage
@@ -51,7 +50,6 @@
                             <NumericContent value="250+" valueColor="Good" indicator="Up" withMargin="false" />
                         </TileContent>
                     </GenericTile>
-
                     <GenericTile
                         header="Locations"
                         subheader="Across the Country"
@@ -64,7 +62,6 @@
                             <NumericContent value="45" valueColor="Neutral" withMargin="false" />
                         </TileContent>
                     </GenericTile>
-
                     <GenericTile
                         header="Reviews"
                         subheader="Customer Satisfaction"
@@ -83,7 +80,6 @@
         <f:content>
             <VBox>
 
-                <!-- Booking Section -->
                 <Panel class="sapUiMediumMargin" expandable="true" expanded="false">
                     <headerToolbar>
                         <Toolbar>
@@ -104,31 +100,22 @@
                                 <core:Item key="SUV" text="SUV" />
                                 <core:Item key="Luxury" text="Luxury" />
                             </Select>
-
                             <Label text="Pickup Location" />
                             <Input placeholder="Enter City..." />
-
                             <Label text="Date Range" />
                             <DateRangeSelection />
-
                             <Label text="" />
                             <Button text="Search Available Cars" type="Emphasized" press=".onNavVehicles" width="200px" />
                         </form:content>
                     </form:SimpleForm>
                 </Panel>
 
-                <!-- Featured Cars -->
                 <VBox class="sapUiMediumMargin">
                     <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
                         <Title text="Our Top Recommendations" level="H2" />
                         <Link text="View All" press=".onNavVehicles" />
                     </HBox>
 
-                    <!--
-                        minColumnSize + maxColumnSize is the correct SAP UI5 approach
-                        for responsive equal-width columns that fill the full container width.
-                        This gives 3 cards per row on large screens, fewer on smaller screens.
-                    -->
                     <f:GridContainer
                         id="featuredCarsList"
                         items="{path: '/Cars', length: 6}"
@@ -136,48 +123,84 @@
                     >
                         <f:layout>
                             <f:GridContainerSettings
-                                minColumnSize="300px"
-                                maxColumnSize="600px"
+                                minColumnSize="200px"
+                                maxColumnSize="400px"
                                 gap="1rem"
                             />
                         </f:layout>
                         <f:items>
-                            <f:Card width="100%">
-                                <f:header>
-                                    <card:Header
-                                        title="{brand} {model}"
-                                        subtitle="${pricePerDay} / day"
+                            <Panel
+                                width="100%"
+                                backgroundDesign="Solid"
+                                class="sapUiNoContentPadding"
+                            >
+                                <VBox width="100%">
+
+                                    <Image
+                                        src="{imageURL}"
+                                        width="100%"
+                                        height="180px"
+                                        mode="Background"
+                                        backgroundSize="cover"
+                                        backgroundPosition="center"
                                     />
-                                </f:header>
-                                <f:content>
+
                                     <VBox class="sapUiSmallMargin">
+
+                                        <HBox justifyContent="SpaceBetween" width="100%" class="sapUiTinyMarginBottom">
+                                            <VBox>
+                                                <Title text="{brand} {model}" level="H4" wrapping="true" />
+                                            </VBox>
+                                            <VBox alignItems="End">
+                                                <ObjectNumber
+                                                    number="{pricePerDay}"
+                                                    numberUnit="$ / day"
+                                                    emphasized="true"
+                                                />
+                                            </VBox>
+                                        </HBox>
+
                                         <ObjectStatus
                                             text="{status}"
                                             state="{= ${status} === 'Available' ? 'Success' : 'Error' }"
                                             inverted="true"
-                                            class="sapUiTinyMarginBottom"
+                                            class="sapUiSmallMarginBottom"
                                         />
-                                        <Image
-                                            src="{imageURL}"
+
+                                        <core:HTML content="&lt;div style='border-top:1px solid #e5e5e5;margin-bottom:8px'/&gt;" />
+
+                                        <HBox justifyContent="SpaceBetween" width="100%" class="sapUiTinyMarginBottom">
+                                            <VBox>
+                                                <Label text="Year" design="Bold" />
+                                                <Text text="{year}" />
+                                            </VBox>
+                                            <VBox alignItems="End">
+                                                <Label text="Fuel" design="Bold" />
+                                                <Text text="{fuelType}" />
+                                            </VBox>
+                                        </HBox>
+
+                                        <HBox justifyContent="SpaceBetween" width="100%" class="sapUiSmallMarginBottom">
+                                            <VBox>
+                                                <Label text="Transmission" design="Bold" />
+                                                <Text text="{transmission}" />
+                                            </VBox>
+                                            <VBox alignItems="End">
+                                                <Label text="Seats" design="Bold" />
+                                                <Text text="{seats}" />
+                                            </VBox>
+                                        </HBox>
+
+                                        <Button
+                                            text="Rent Now"
+                                            type="Emphasized"
                                             width="100%"
-                                            height="160px"
-                                            mode="Background"
-                                            backgroundSize="cover"
-                                            backgroundPosition="center"
-                                            class="sapUiSmallMarginTopBottom"
+                                            press=".onViewDetails"
+                                            icon="sap-icon://car-rental"
                                         />
-                                        <HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
-                                            <ObjectAttribute title="Year" text="{year}" />
-                                            <ObjectAttribute title="Fuel" text="{fuelType}" />
-                                        </HBox>
-                                        <HBox justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
-                                            <ObjectAttribute title="Gear" text="{transmission}" />
-                                            <ObjectAttribute title="Seats" text="{seats}" />
-                                        </HBox>
-                                        <Button text="Rent Now" type="Emphasized" width="100%" press=".onViewDetails" />
                                     </VBox>
-                                </f:content>
-                            </f:Card>
+                                </VBox>
+                            </Panel>
                         </f:items>
                     </f:GridContainer>
                 </VBox>
