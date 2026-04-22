@@ -98,9 +98,9 @@
                             <Label text="Car type" />
                             <Select id="selectCarType" width="100%" change=".onFilterChange">
                                 <core:Item key="" text="All Types" />
-                                <core:Item key="Sedan" text="Sedan" />
                                 <core:Item key="SUV" text="SUV" />
                                 <core:Item key="Luxury" text="Luxury" />
+                                <core:Item key="Sedan" text="Sedan" />
                             </Select>
                             <Label text="Pickup Location" />
                             <Input id="inputLocation" placeholder="Enter City..." liveChange=".onFilterChange" />
